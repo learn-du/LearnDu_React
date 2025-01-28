@@ -26,12 +26,12 @@ function Footer() {
     </p>
   </aside>
   <nav className='text-black'>
-  <a className="link link-hover">Contact Us</a>
-    <a className="link link-hover">Website Information</a>
-    <a className="link link-hover">Privacy Policy </a>
-    <a className="link link-hover">Refund Policy</a>
-    <a className="link link-hover">Terms and Condition </a>
-    <a className="link link-hover">Work With Us </a>
+  <a href="https://learndu.in/contact_us" className="link link-hover " rel="noopener noreferrer">Contact Us</a>
+    <a href="https://learndu.in/website_info" className="link link-hover" rel="noopener noreferrer">Website Information</a>
+    <a href="https://learndu.in/privacy_policy" className="link link-hover" rel="noopener noreferrer">Privacy Policy </a>
+    <a href="https://learndu.in/refund_policy" className="link link-hover" rel="noopener noreferrer">Refund Policy</a>
+    <a href="https://learndu.in/terms_conditions" className="link link-hover" rel="noopener noreferrer">Terms and Condition </a>
+    <a href="https://learndu.in/work-with-us" className="link link-hover" rel="noopener noreferrer">Work With Us </a>
   </nav>
   <aside>
     <p className='text-black'>Copyright © {new Date().getFullYear()} 2024 Learn DU. All rights reserved</p>
