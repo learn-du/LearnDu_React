@@ -84,7 +84,7 @@ function Sell() {
   return (
     <div className="flex items-center justify-center min-h-screen bg-white py-28">
       <div className="bg-white shadow-lg rounded-lg p-8 max-w-2xl w-full">
-        <h1 className="text-2xl font-bold text-center text-yellow-500 mb-6 pt-7">
+        <h1 className="text-2xl font-bold text-center text-yellow mb-6 pt-7">
           Sell Your Book
         </h1>
         <form className="space-y-4" onSubmit={handleSubmit}>

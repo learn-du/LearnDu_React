@@ -1,58 +1,113 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import loginbg from "../assets/loginbg.jpeg";
 import faces from "../assets/faces.jpeg";
-import { Link } from "react-router-dom";
+
 function Signup() {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    fullName: "",
+    email: "",
+    phone: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const [errorMessage, setErrorMessage] = useState("");
+
+  // Handle form input changes
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setErrorMessage("");
+
+    try {
+      // Send POST request to the backend
+      const response = await axios.post("http://localhost:5000/api/users/signup", formData);
+
+      if (response.status === 201) {
+        alert("Signup successful!");
+        navigate("/login"); // Redirect to login page
+      }
+    } catch (error) {
+      console.error("Error during signup:", error);
+      if (error.response) {
+        // Backend error message
+        setErrorMessage(error.response.data.message || "Signup failed.");
+      } else {
+        setErrorMessage("An unexpected error occurred. Please try again.");
+      }
+    }
+  };
+
   return (
     <div
       className="relative min-h-screen flex flex-col items-center justify-between"
       style={{
-        backgroundImage:`url(${loginbg})`,
+        backgroundImage: `url(${loginbg})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
       {/* Faces image at the top */}
       <div className="flex justify-center pt-0">
-        <img
-          src={faces}
-          alt="Avatars"
-          className="w-auto h-28 object-contain"
-        />
+        <img src={faces} alt="Avatars" className="w-auto h-28 object-contain" />
       </div>
 
       {/* Centered Signup Form */}
-      <div className=" flex flex-col items-center justify-center w-full max-w-md bg-white  border-black border-4 p-4 shadow-lg">
-        <form className="w-full">
-          <h2 className=" text-2xl font-bold text-center mb-6 font-sans text-black">Sign Up</h2>
+      <div className="flex flex-col items-center justify-center w-full max-w-md bg-white border-black border-4 p-4 shadow-lg">
+        <form className="w-full" onSubmit={handleSubmit}>
+          <h2 className="text-2xl font-bold text-center mb-6 font-sans text-black">Sign Up</h2>
+          {errorMessage && <p className="text-red-500 text-center mb-4">{errorMessage}</p>}
           <input
             type="text"
+            name="fullName"
+            value={formData.fullName}
+            onChange={handleInputChange}
             placeholder="Full Name"
-            className="w-full p-2 mb-4 border-b-2 border-black  bg-white  focus:outline-none focus:ring-0 focus:border-orange"
+            className="w-full p-2 mb-4 border-b-2 border-black bg-white focus:outline-none focus:ring-0 focus:border-orange"
             required
           />
           <input
             type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleInputChange}
             placeholder="Email ID"
-            className="w-full p-2 mb-4 border-b-2 border-black  bg-white  focus:outline-none focus:ring-0 focus:border-orange"
+            className="w-full p-2 mb-4 border-b-2 border-black bg-white focus:outline-none focus:ring-0 focus:border-orange"
             required
           />
           <input
-            type="number"
+            type="text"
+            name="phone"
+            value={formData.phone}
+            onChange={handleInputChange}
             placeholder="Phone Number"
-            className="w-full p-2 mb-4 border-b-2 border-black  bg-white  focus:outline-none focus:ring-0 focus:border-orange"
+            className="w-full p-2 mb-4 border-b-2 border-black bg-white focus:outline-none focus:ring-0 focus:border-orange"
             required
           />
           <input
             type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleInputChange}
             placeholder="Password"
-            className="w-full p-2 mb-4 border-b-2 border-black  bg-white  focus:outline-none focus:ring-0 focus:border-orange"
+            className="w-full p-2 mb-4 border-b-2 border-black bg-white focus:outline-none focus:ring-0 focus:border-orange"
             required
           />
           <input
             type="password"
+            name="confirmPassword"
+            value={formData.confirmPassword}
+            onChange={handleInputChange}
             placeholder="Confirm Password"
-            className="w-full p-2 mb-4 border-b-2 border-black  bg-white   focus:outline-none focus:ring-0 "
+            className="w-full p-2 mb-4 border-b-2 border-black bg-white focus:outline-none focus:ring-0"
             required
           />
           <button
@@ -63,9 +118,9 @@ function Signup() {
           </button>
           <p className="text-sm text-center mt-4">
             Already have an account?{" "}
-            <Link to="/login" className="text-yellow underline">
-  Log in
-</Link>
+            <a href="/login" className="text-yellow underline">
+              Log in
+            </a>
           </p>
         </form>
       </div>
