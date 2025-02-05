@@ -1,45 +1,100 @@
-import React from 'react'
+import React from "react";
+import Logo from "../assets/logomain.png"
+import { FaLinkedin } from "react-icons/fa";
+import { SiGmail } from "react-icons/si";
+import { FaInstagram } from "react-icons/fa";
 
 function Footer() {
   return (
     <>
-    <div>
-    <footer className="footer  text-base-content p-10 bg-grey">
-  <aside>
-    <svg
-      width="50"
-      height="50"
-      viewBox="0 0 24 24"
-      xmlns="http://www.w3.org/2000/svg"
-      fillRule="evenodd"
-      clipRule="evenodd"
-      className="fill-current">
-      <path
-        d="M22.672 15.226l-2.432.811.841 2.515c.33 1.019-.209 2.127-1.23 2.456-1.15.325-2.148-.321-2.463-1.226l-.84-2.518-5.013 1.677.84 2.517c.391 1.203-.434 2.542-1.831 2.542-.88 0-1.601-.564-1.86-1.314l-.842-2.516-2.431.809c-1.135.328-2.145-.317-2.463-1.229-.329-1.018.211-2.127 1.231-2.456l2.432-.809-1.621-4.823-2.432.808c-1.355.384-2.558-.59-2.558-1.839 0-.817.509-1.582 1.327-1.846l2.433-.809-.842-2.515c-.33-1.02.211-2.129 1.232-2.458 1.02-.329 2.13.209 2.461 1.229l.842 2.515 5.011-1.677-.839-2.517c-.403-1.238.484-2.553 1.843-2.553.819 0 1.585.509 1.85 1.326l.841 2.517 2.431-.81c1.02-.33 2.131.211 2.461 1.229.332 1.018-.21 2.126-1.23 2.456l-2.433.809 1.622 4.823 2.433-.809c1.242-.401 2.557.484 2.557 1.838 0 .819-.51 1.583-1.328 1.847m-8.992-6.428l-5.01 1.675 1.619 4.828 5.011-1.674-1.62-4.829z"></path>
-    </svg>
-    <p className='text-black'>
-      Learn DU
-      <br />
-      +91 7428549837
-      <br />
-      contact@learndu.in 
-    </p>
-  </aside>
-  <nav className='text-black'>
-  <a href="https://learndu.in/contact_us" className="link link-hover " rel="noopener noreferrer">Contact Us</a>
-    <a href="https://learndu.in/website_info" className="link link-hover" rel="noopener noreferrer">Website Information</a>
-    <a href="https://learndu.in/privacy_policy" className="link link-hover" rel="noopener noreferrer">Privacy Policy </a>
-    <a href="https://learndu.in/refund_policy" className="link link-hover" rel="noopener noreferrer">Refund Policy</a>
-    <a href="https://learndu.in/terms_conditions" className="link link-hover" rel="noopener noreferrer">Terms and Condition </a>
-    <a href="https://learndu.in/work-with-us" className="link link-hover" rel="noopener noreferrer">Work With Us </a>
-  </nav>
-  <aside>
-    <p className='text-black'>Copyright © {new Date().getFullYear()} 2024 Learn DU. All rights reserved</p>
-  </aside>
-</footer>
-    </div>
+      <div className="relative z-10">
+        <footer className="footer bg-grey text-base-content p-10">
+          {/* Left Section */}
+          <aside>
+          <img
+    src="./assets/logomain.png" 
+    alt="Learn DU Logo"
+    className="w-12 h-12 object-contain"
+  />
+            <p className="text-black">
+              Learn DU
+              <br />
+              +91 7428549837
+              <br />
+              contact@learndu.in
+            </p>
+          </aside>
+
+          {/* Middle Section */}
+          <nav className="text-black">
+            <a
+              href="https://learndu.in/contact_us"
+              className="link link-hover pointer-events-auto"
+              rel="noopener noreferrer"
+            >
+              Contact Us
+            </a>
+            <a
+              href="https://learndu.in/website_info"
+              className="link link-hover pointer-events-auto"
+              rel="noopener noreferrer"
+            >
+              Website Information
+            </a>
+            <a
+              href="https://learndu.in/privacy_policy"
+              className="link link-hover pointer-events-auto"
+              rel="noopener noreferrer"
+            >
+              Privacy Policy
+            </a>
+            <a
+              href="https://learndu.in/refund_policy"
+              className="link link-hover pointer-events-auto"
+              rel="noopener noreferrer"
+            >
+              Refund Policy
+            </a>
+            <a
+              href="https://learndu.in/terms_conditions"
+              className="link link-hover pointer-events-auto"
+              rel="noopener noreferrer"
+            >
+              Terms and Condition
+            </a>
+            <a
+              href="https://learndu.in/work-with-us"
+              className="link link-hover pointer-events-auto"
+              rel="noopener noreferrer"
+            >
+              Work With Us
+            </a>
+          </nav>
+
+        {/* Right Section */}
+<nav className="text-center md:text-left">
+  <h6 className="footer-title text-black mb-4">Social</h6>
+  <div className="flex justify-center md:justify-start space-x-6">
+    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="text-black text-3xl hover:text-blue-700">
+      <FaLinkedin />
+    </a>
+    <a href="mailto:contact@learndu.in" className="text-black text-3xl hover:text-red-600">
+      <SiGmail />
+    </a>
+    <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-black text-3xl hover:text-pink-500">
+      <FaInstagram />
+    </a>
+  </div>
+</nav>
+          {/* Copyright Section */}
+      
+        </footer>
+        <div className="bg-grey text-black text-center py-4 ">
+          <p>© 2024 - All right reserved by LearnDU</p>
+        </div>
+      </div>
     </>
-  )
+  );
 }
 
-export default Footer
+export default Footer;

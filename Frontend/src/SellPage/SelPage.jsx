@@ -6,7 +6,7 @@ import Sell from '../components/Sell'
 function SelPage() {
   return (
     <>
-    <div>
+    <div className='bg-white'>
       <Navbar/>
       <Sell/>
       <Footer/>
