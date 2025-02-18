@@ -15,7 +15,6 @@ function Navbar() {
         </details>
       </li>
       <li><a href='/listing'>My Listings</a></li>
-      <li><a>Profile</a></li>
       <li><a href="https://learndu.in/about_us">About Us</a></li>
     </>
   );

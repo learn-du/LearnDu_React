@@ -1,81 +1,152 @@
-const Book = require("../model/Books");
+const Book = require('../model/Books');
+const multer = require('multer');
+const path = require('path');
 
-// Add a book
-const addBook = async (req, res) => {
-  const {
-    name,
-    whatsappNumber,
-    collegeName,
-    bookName,
-    category,
-    subcategory,
-    price,
-    driveLink,
-    coverImage,
-  } = req.body;
+// Multer configuration for file storage
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'public/uploads/');  // Store files in the 'public/uploads' directory
+    },
+    filename: function (req, file, cb) {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+    }
+});
 
+const upload = multer({ storage: storage });
+
+
+// Create a new book
+exports.create = async (req, res) => {
+  upload.single('coverImage')(req, res, async (err) => {
+    if (err) {
+      console.error("Multer error:", err);
+      return res.status(500).json({ message: "File upload failed", error: err });
+    }
+
+
+    try {
+      const { name, whatsappNumber, collegeName, bookName, category, subcategory, price, mrp } = req.body;
+      const coverImage = req.file ? `/uploads/${req.file.filename}` : null;
+
+      const book = new Book({
+        name,
+        whatsappNumber,
+        collegeName,
+        bookName,
+        category,
+        subcategory,
+        price,
+        coverImage,
+        mrp
+      });
+
+      const savedBook = await book.save();
+      res.status(201).json(savedBook); // 201 Created
+    } catch (error) {
+      console.error("Error creating book:", error);
+      res.status(500).json({
+        message: "Some error occurred while creating the book.",
+        error: error.message,
+      });
+    }
+  });
+};
+
+// Fetch all books
+exports.getAllBooks = async (req, res) => {
   try {
-    const newBook = new Book({
-      name,
-      whatsappNumber,
-      collegeName,
-      bookName,
-      category,
-      subcategory,
-      price,
-      driveLink,
-      coverImage,
-    });
-
-    await newBook.save(); // Save book to MongoDB
-    res.status(201).json({ message: "Book added successfully", book: newBook });
+    const books = await Book.find(); // Fetch all books from the database
+    res.status(200).json(books);
   } catch (error) {
-    res.status(500).json({ message: "Failed to add book", error: error.message });
+    console.error("Error fetching books:", error);
+    res.status(500).json({ error: "Failed to fetch books" });
+  }
+};
+
+// Retrieve filtered books based on query parameters
+exports.findFiltered = async (req, res) => {
+  try {
+    const { collegeName, category, subcategory } = req.query;
+
+    // Build dynamic query object
+    const query = {};
+    if (collegeName) query.collegeName = collegeName;
+    if (category) query.category = category;
+    if (subcategory) query.subcategory = subcategory;
+
+    const filteredBooks = await Book.find(query);
+    res.status(200).json(filteredBooks);
+  } catch (error) {
+    console.error("Error fetching filtered books:", error);
+    res.status(500).json({ error: "Failed to fetch filtered books" });
   }
 };
 
 // Get all books
-const getBooks = async (req, res) => {
+exports.findAll = async (req, res) => {
   try {
-    const books = await Book.find(); // Fetch all books from MongoDB
-    res.json(books);
+    const books = await Book.find();
+    res.status(200).json(books);
   } catch (error) {
-    res.status(500).json({ message: "Failed to fetch books", error: error.message });
+    res.status(500).json({
+      message: "Some error occurred while retrieving books.",
+      error: error.message,
+    });
   }
 };
 
-// Fetch books listed by the logged-in user
-const getUserBooks = async (req, res) => {
+// Get a single book by ID
+exports.findOne = async (req, res) => {
   try {
-    const books = await Book.find({ user: req.user.id });
-    res.status(200).json({ books });
+    const book = await Book.findById(req.params.id);
+    if (!book) {
+      return res.status(404).json({ message: "Book not found" });
+    }
+    res.status(200).json(book);
   } catch (error) {
-    res.status(500).json({ message: "Failed to fetch books", error: error.message });
+    res.status(500).json({
+      message: "Error retrieving book with id=" + req.params.id,
+      error: error.message,
+    });
   }
 };
 
-// Delete a specific book
-const deleteBook = async (req, res) => {
-  const bookId = req.params.id;
-
+// Update a book by ID
+exports.update = async (req, res) => {
   try {
-    const book = await Book.findById(bookId);
+    const updatedBook = await Book.findByIdAndUpdate(req.params.id, req.body, {
+      new: true, // Return the updated document
+      runValidators: true, // Ensure validation rules are applied
+    });
+
+    if (!updatedBook) {
+      return res.status(404).json({ message: "Book not found" });
+    }
+
+    res.status(200).json(updatedBook);
+  } catch (error) {
+    res.status(400).json({
+      message: "Error updating book with id=" + req.params.id,
+      error: error.message,
+    });
+  }
+};
+
+// Delete a book by ID
+exports.delete = async (req, res) => {
+  try {
+    const book = await Book.findByIdAndDelete(req.params.id);
 
     if (!book) {
       return res.status(404).json({ message: "Book not found" });
     }
 
-    // Check if the logged-in user owns the book
-    if (book.user.toString() !== req.user.id) {
-      return res.status(401).json({ message: "Unauthorized to delete this book" });
-    }
-
-    await book.remove();
     res.status(200).json({ message: "Book deleted successfully" });
   } catch (error) {
-    res.status(500).json({ message: "Failed to delete book", error: error.message });
+    res.status(500).json({
+      message: "Could not delete book with id=" + req.params.id,
+      error: error.message,
+    });
   }
 };
-
-
-module.exports = { addBook, getBooks, getUserBooks, deleteBook };

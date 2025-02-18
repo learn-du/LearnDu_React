@@ -1,20 +1,22 @@
-const express = require("express");
-const { addBook, getBooks, getUserBooks, deleteBook } = require("../controller/bookController");
-const authenticate = require("../middleware/authMiddleware");
-
+const express = require('express');
 const router = express.Router();
+const books = require('../controller/bookController');
 
-// Route to add a book
-router.post("/", addBook);
+// Create a new book
+router.post('/', books.create);
 
-// Route to get all books
-router.get("/", getBooks);
+// Retrieve all books
+router.get('/', books.findAll);
 
+router.get("/filter", books.findFiltered);
 
-// Route to get books listed by the logged-in user
-router.get("/mine", authenticate, getUserBooks);
+// Retrieve a single book with id
+router.get('/:id', books.findOne);
 
-// Route to delete a book
-router.delete("/:id", authenticate, deleteBook);
+// Update a book with id
+router.put('/:id', books.update);
+
+// Delete a book with id
+router.delete('/:id', books.delete);
 
 module.exports = router;
