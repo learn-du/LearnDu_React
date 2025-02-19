@@ -12,5 +12,4 @@ function Listing() {
     </div>
   )
 }
-
 export default Listing

@@ -71,7 +71,7 @@ function Signup() {
             value={formData.fullName}
             onChange={handleInputChange}
             placeholder="Full Name"
-            className="w-full p-2 mb-4 border-b-2 border-black bg-white focus:outline-none focus:ring-0 focus:border-orange"
+            className="w-full p-2 mb-4 border-b-2 border-black text-black bg-white focus:outline-none focus:ring-0 focus:border-orange"
             required
           />
           <input
@@ -80,7 +80,7 @@ function Signup() {
             value={formData.email}
             onChange={handleInputChange}
             placeholder="Email ID"
-            className="w-full p-2 mb-4 border-b-2 border-black bg-white focus:outline-none focus:ring-0 focus:border-orange"
+            className="w-full p-2 mb-4 border-b-2 border-black  text-black bg-white focus:outline-none focus:ring-0 focus:border-orange"
             required
           />
           <input
@@ -89,7 +89,7 @@ function Signup() {
             value={formData.phone}
             onChange={handleInputChange}
             placeholder="Phone Number"
-            className="w-full p-2 mb-4 border-b-2 border-black bg-white focus:outline-none focus:ring-0 focus:border-orange"
+            className="w-full p-2 mb-4 border-b-2 border-black  text-black bg-white focus:outline-none focus:ring-0 focus:border-orange"
             required
           />
           <input
@@ -98,7 +98,7 @@ function Signup() {
             value={formData.password}
             onChange={handleInputChange}
             placeholder="Password"
-            className="w-full p-2 mb-4 border-b-2 border-black bg-white focus:outline-none focus:ring-0 focus:border-orange"
+            className="w-full p-2 mb-4 border-b-2 border-black  text-black bg-white focus:outline-none focus:ring-0 focus:border-orange"
             required
           />
           <input
@@ -107,7 +107,7 @@ function Signup() {
             value={formData.confirmPassword}
             onChange={handleInputChange}
             placeholder="Confirm Password"
-            className="w-full p-2 mb-4 border-b-2 border-black bg-white focus:outline-none focus:ring-0"
+            className="w-full p-2 mb-4 border-b-2 border-black  text-black bg-white focus:outline-none focus:ring-0"
             required
           />
           <button

@@ -3,6 +3,8 @@ import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import Sell from '../components/Sell'
 
+
+
 function SelPage() {
   return (
     <>
@@ -15,4 +17,4 @@ function SelPage() {
   )
 }
 
-export default SelPage
+export default SelPage 

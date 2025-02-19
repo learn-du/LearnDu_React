@@ -1,7 +1,16 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth'; // Import useAuth hook
 
 function Navbar() {
+  const { user, logout } = useAuth(); // Get user and logout function from AuthContext
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout(); // Clear user session
+    navigate('/'); // Redirect to homepage
+  };
+
   const navItems = (
     <>
       <li><a href="https://learndu.in/">Home</a></li>
@@ -53,12 +62,21 @@ function Navbar() {
           <ul className="menu menu-horizontal px-1 font">{navItems}</ul>
         </div>
         <div className="navbar-end">
-          <Link
-            to="/login"
-            className="btn bg-yellow border-none text-white hover:text-white mr-10 px-8 py-1"
-          >
-            Login
-          </Link>
+          {user ? (
+            <button
+              onClick={handleLogout}
+              className="btn bg-yellow border-none text-white hover:bg-grey text-white mr-10 px-8 py-1"
+            >
+              Logout
+            </button>
+          ) : (
+            <Link
+              to="/login"
+              className="btn bg-yellow border-none text-white hover:text-yellow bg-grey mr-10 px-8 py-1"
+            >
+              Login
+            </Link>
+          )}
         </div>
       </div>
     </div>

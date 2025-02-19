@@ -3,11 +3,14 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import loginbg from "../assets/loginbg.jpeg";
 import faces from "../assets/faces.jpeg";
+import { useAuth } from "../hooks/useAuth";
 
 function Login() {
   const navigate = useNavigate();
+  const { login } = useAuth(); // Get login function from AuthContext
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(false); // Loading state
 
   // Handle input changes
   const handleInputChange = (e) => {
@@ -19,6 +22,7 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage("");
+    setLoading(true); // Show loading state
 
     try {
       const response = await axios.post("http://localhost:5000/api/users/login", formData);
@@ -26,8 +30,8 @@ function Login() {
       if (response.status === 200) {
         alert("Login successful!");
 
-        // Save the JWT token to localStorage
-        localStorage.setItem("token", response.data.token);
+        // Call login function from AuthContext to update user state
+        await login(response.data.token);
 
         // Redirect to the homepage
         navigate("/");
@@ -39,6 +43,8 @@ function Login() {
       } else {
         setErrorMessage("An unexpected error occurred. Please try again.");
       }
+    } finally {
+      setLoading(false); // Hide loading state
     }
   };
 
@@ -69,7 +75,7 @@ function Login() {
               value={formData.email}
               onChange={handleInputChange}
               placeholder="Email ID"
-              className="w-full p-2 mb-4 border-b-2 border-black bg-white focus:outline-none focus:ring-0 focus:border-orange"
+              className="w-full p-2 mb-4 border-b-2 border-black bg-white text-black focus:outline-none focus:ring-0 focus:border-orange"
               required
             />
             <input
@@ -78,7 +84,7 @@ function Login() {
               value={formData.password}
               onChange={handleInputChange}
               placeholder="Password"
-              className="w-full p-2 mb-4 border-b-2 border-black bg-white focus:outline-none focus:ring-0 focus:border-orange"
+              className="w-full p-2 mb-4 border-b-2 border-black bg-white text-black focus:outline-none focus:ring-0 focus:border-orange"
               required
             />
             <a href="#" className="text-gray hover:text-slate-600 text-sm block px-0 py-0 mb-4 text-center">
@@ -86,9 +92,10 @@ function Login() {
             </a>
             <button
               type="submit"
-              className="w-full bg-white text-black py-3 rounded border-x-4 border-y-4 border-yellow hover:bg-slate-100"
+              className="w-full bg-white text-black py-3 rounded border-x-4 border-y-4 border-yellow hover:bg-grey"
+              disabled={loading}
             >
-              Login
+              {loading ? "Logging in..." : "Login"}
             </button>
             <p className="text-sm text-center mt-4">
               Do not have an account?{" "}

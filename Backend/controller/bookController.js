@@ -30,6 +30,7 @@ exports.create = async (req, res) => {
       const coverImage = req.file ? `/uploads/${req.file.filename}` : null;
 
       const book = new Book({
+        user: req.user._id, // Link book to the logged-in user
         name,
         whatsappNumber,
         collegeName,
@@ -63,6 +64,28 @@ exports.getAllBooks = async (req, res) => {
     res.status(500).json({ error: "Failed to fetch books" });
   }
 };
+
+exports.getUserListings = async (req, res) => {
+  try {
+    if (!req.user || !req.user._id) {
+      return res.status(401).json({ message: "Unauthorized: No user logged in." });
+    }
+
+    console.log("Fetching listings for user ID:", req.user._id); // Debugging log
+
+    const books = await Book.find({ user: req.user._id });
+
+    if (books.length === 0) {
+      return res.status(404).json({ message: "No listings found for this user." });
+    }
+
+    res.status(200).json({ books });
+  } catch (error) {
+    console.error("Error fetching user listings:", error);
+    res.status(500).json({ message: "Error fetching listings", error: error.message });
+  }
+};
+
 
 // Retrieve filtered books based on query parameters
 exports.findFiltered = async (req, res) => {
@@ -132,6 +155,7 @@ exports.update = async (req, res) => {
     });
   }
 };
+
 
 // Delete a book by ID
 exports.delete = async (req, res) => {

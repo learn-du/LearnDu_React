@@ -35,7 +35,7 @@ function Buy() {
       (!selectedSubcategory || book.subcategory === selectedSubcategory)
   );
 
-  const handleContactSeller = (bookTitle, sellerCollege) => {
+  const handleContactSeller = (bookTitle, whatsappNumber) => {
     const message = `Hi Dear [Username],
 I came across your listing for ${bookTitle} on Learn DU and would like to express my interest in purchasing it. Please let me know the necessary details for the transaction.
 
@@ -44,16 +44,11 @@ Update link : [link to my listings page].
 
 Looking forward to your response.`;
 
-    navigator.clipboard.writeText(message).then(
-      () => {
-        alert("Message copied to clipboard!");
-      },
-      (err) => {
-        console.error("Could not copy text: ", err);
-      }
+    // Redirect to WhatsApp with seller's number and message
+    window.open(
+      `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`,
+      "_blank"
     );
-
-    window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, "_blank");
   };
 
   return (
@@ -159,7 +154,7 @@ Looking forward to your response.`;
                 <button
                   className="px-2 py-1 bg-yellow text-black rounded-md hover:bg-white hover:text-yellow text-xs"
                   onClick={() =>
-                    handleContactSeller(book.bookName, book.collegeName)
+                    handleContactSeller(book.bookName, book.whatsappNumber)
                   }
                 >
                   Contact Seller

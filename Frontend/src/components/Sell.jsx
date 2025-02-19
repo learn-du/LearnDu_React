@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useAuth } from "../hooks/useAuth.jsx"; // Ensure authentication check
+import { useNavigate } from "react-router-dom";
 
 function Sell() {
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState("");
   const [subcategories, setSubcategories] = useState([]);
   const [formData, setFormData] = useState({
@@ -45,6 +49,13 @@ function Sell() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!user) {
+      alert("You must be logged in to submit this form. Redirecting to login...");
+      navigate("/login");
+      return;
+    }
+    
+
     const formDataToSend = new FormData();
     for (const key in formData) {
       formDataToSend.append(key, formData[key]);
@@ -57,6 +68,7 @@ function Sell() {
         {
           headers: {
             "Content-Type": "multipart/form-data", 
+            Authorization: `Bearer ${user.token}`,
           },
         }
       );
@@ -88,6 +100,13 @@ function Sell() {
         <h1 className="text-2xl font-bold text-center text-yellow mb-6 pt-7">
           Sell Your Book
         </h1>
+
+        {!user && (
+          <p className="text-red-500 text-center mt-2">
+            You must be logged in to submit the form.
+          </p>
+        )}
+
         <form className="space-y-4" onSubmit={handleSubmit}>
           {/* Name and WhatsApp Number */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -250,12 +269,15 @@ function Sell() {
 
           {/* Submit Button */}
           <div className="text-center">
-            <button
-              type="submit"
-              className="bg-yellow text-black px-6 py-2 rounded-lg font-medium hover:bg-white hover:text-yellow"
-            >
-              Submit
-            </button>
+          <button
+            type="submit"
+            className={`w-full p-2 mt-4 rounded ${
+              user ? "bg-yellow hover:bg-grey text-black" : "bg-yellow cursor-not-allowed"
+            }`}
+            disabled={!user} // Disable button if user is not logged in
+          >
+            Submit
+          </button>
           </div>
         </form>
       </div>
