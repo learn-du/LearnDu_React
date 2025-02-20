@@ -17,7 +17,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/buy" element={<Buy />} />
-          <Route path="/sell" element={<Sell />} />  {/* ✅ No ProtectedRoute */}
+          <Route path="/sell" element={<Sell />} />  {/*  No ProtectedRoute */}
           <Route path="/listing" element={<Listing />} />
         </Routes>
       </div>

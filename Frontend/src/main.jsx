@@ -10,6 +10,6 @@ createRoot(document.getElementById('root')).render(
     <div className='bg-white'>
     <App />
     </div>
-  </StrictMode>,
+  </StrictMode>
   </BrowserRouter>
 )
