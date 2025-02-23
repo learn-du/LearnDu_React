@@ -8,6 +8,8 @@ function Sell() {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState("");
   const [subcategories, setSubcategories] = useState([]);
+  const [successMessage, setSuccessMessage] = useState("");
+
   const [formData, setFormData] = useState({
     name: "",
     whatsappNumber: "",
@@ -16,11 +18,11 @@ function Sell() {
     category: "",
     subcategory: "",
     price: "",
-    mrp: "", // Added MRP field
-    coverImage: null, // For the book cover file
+    mrp: "",
+    coverImage: null,
   });
 
-  // Subcategory options
+  // Category Options
   const categoryOptions = {
     Commerce: ["Accounting", "Business Studies", "Economics"],
     Humanities: ["History", "Political Science", "Sociology"],
@@ -32,18 +34,29 @@ function Sell() {
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
     setSubcategories(categoryOptions[category] || []);
-    setFormData({ ...formData, category, subcategory: "" }); // Update form data and reset subcategory
+    setFormData({ ...formData, category, subcategory: "" });
   };
 
-  // Handle form input changes
+  // Handle input change
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  // Handle file input
+  // Handle file upload
   const handleFileChange = (e) => {
-    setFormData({ ...formData, coverImage: e.target.files[0] });
+    const file = e.target.files[0];
+
+    if (file) {
+      if (file.size > 100 * 1024) { // 100KB limit
+        setSuccessMessage("❌ File size exceeds 100KB. Please upload a smaller file.");
+        setFormData({ ...formData, coverImage: null });
+        return;
+      }
+
+      setFormData({ ...formData, coverImage: file });
+      setSuccessMessage("📚 Book cover uploaded successfully!");
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -54,7 +67,6 @@ function Sell() {
       navigate("/login");
       return;
     }
-    
 
     const formDataToSend = new FormData();
     for (const key in formData) {
@@ -67,13 +79,13 @@ function Sell() {
         formDataToSend,
         {
           headers: {
-            "Content-Type": "multipart/form-data", 
+            "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${user.token}`,
           },
         }
       );
+
       console.log(response.data);
-      // Reset form
       setFormData({
         name: "",
         whatsappNumber: "",
@@ -87,10 +99,10 @@ function Sell() {
       });
       setSelectedCategory("");
       setSubcategories([]);
-      alert("Book details submitted successfully!"); // Show success message
+      setSuccessMessage("✅ Book details submitted successfully!");
     } catch (error) {
       console.error("Error submitting form:", error);
-      alert("Error submitting form. Please try again."); // Show error message to user
+      setSuccessMessage("❌ Error submitting form. Please try again.");
     }
   };
 
@@ -117,7 +129,7 @@ function Sell() {
                 name="name"
                 value={formData.name}
                 onChange={handleInputChange}
-                className="w-full border rounded-lg px-3 py-2 mt-1 bg-white text-black focus:outline-none focus:ring-2 focus:ring-yellow"
+                className="w-full border rounded-lg px-3 py-2 bg-white text-black"
                 placeholder="Enter your name"
                 required
               />
@@ -131,7 +143,7 @@ function Sell() {
                 name="whatsappNumber"
                 value={formData.whatsappNumber}
                 onChange={handleInputChange}
-                className="w-full border rounded-lg px-3 py-2 mt-1 bg-white text-black focus:outline-none focus:ring-2 focus:ring-yellow"
+                className="w-full border rounded-lg px-3 py-2 bg-white text-black"
                 placeholder="Enter your WhatsApp number"
                 required
               />
@@ -216,7 +228,8 @@ function Sell() {
             </div>
           )}
 
-          {/* Upload Book Cover */}
+
+          {/* Book Cover Upload */}
           <div>
             <label className="block text-black font-medium mb-2">
               Upload Book Cover Page (Max Size: 100KB)
@@ -230,15 +243,21 @@ function Sell() {
                   className="hidden"
                 />
                 <div className="text-yellow font-bold">
-                  <span className="text-lg">📤</span> Click Here to Upload
-                  File
+                  <span className="text-lg">📤</span> Click Here to Upload File
                 </div>
               </label>
             </div>
+
+            {/* Success/Error Message */}
+            {successMessage && (
+              <div className={`mt-2 text-center font-semibold ${successMessage.includes("❌") ? "text-red" : "text-green"}`}>
+                {successMessage}
+              </div>
+            )}
           </div>
 
-          {/* Drive Link and Price */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+           {/* Drive Link and Price */}
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="text-center md:text-left">
               <label className="block text-black font-medium">
                 Selling Price (₹)
@@ -269,15 +288,15 @@ function Sell() {
 
           {/* Submit Button */}
           <div className="text-center">
-          <button
-            type="submit"
-            className={`w-full p-2 mt-4 rounded ${
-              user ? "bg-yellow hover:bg-grey text-black" : "bg-yellow cursor-not-allowed"
-            }`}
-            disabled={!user} // Disable button if user is not logged in
-          >
-            Submit
-          </button>
+            <button
+              type="submit"
+              className={`w-full p-2 mt-4 rounded ${
+                user ? "bg-yellow hover:bg-grey text-black" : "bg-yellow cursor-not-allowed"
+              }`}
+              disabled={!user}
+            >
+              Submit
+            </button>
           </div>
         </form>
       </div>
