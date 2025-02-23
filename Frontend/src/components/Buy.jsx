@@ -14,7 +14,7 @@ function Buy() {
     const fetchBooks = async () => {
       setLoading(true);
       try {
-        const response = await axios.get("https://learndu-react.onrender.com/api/books"); // Replace with your API endpoint
+        const response = await axios.get("https://learndu-services-backend.onrender.com/api/books"); // Replace with your API endpoint
         setBooks(response.data); // Set fetched books in state
       } catch (err) {
         console.error("Error fetching books:", err);
