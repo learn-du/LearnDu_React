@@ -25,7 +25,7 @@ function Login() {
     setLoading(true); // Show loading state
 
     try {
-      const response = await axios.post("https://learndu-react.onrender.com/api/users/login", formData);
+      const response = await axios.post("https://learndu-services-backend.onrender.com/api/users/login", formData);
 
       if (response.status === 200) {
         alert("Login successful!");
