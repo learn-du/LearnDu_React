@@ -41,7 +41,7 @@ function MyListings() {
     if (!window.confirm("Are you sure you want to delete this book?")) return;
 
     try {
-      await axios.delete(`http://localhost:5000/api/books/${bookId}`, {
+      await axios.delete(`https://learndu-react.onrender.com/api/books/${bookId}`, {
         headers: { Authorization: `Bearer ${userToken}` },
       });
 
