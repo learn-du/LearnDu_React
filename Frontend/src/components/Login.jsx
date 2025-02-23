@@ -99,7 +99,7 @@ function Login() {
             </button>
             <p className="text-sm text-center mt-4">
               Do not have an account?{" "}
-              <a href="/Signup" className="text-yellow underline">
+              <a href="/signup" className="text-yellow underline">
                 Sign up
               </a>
             </p>
