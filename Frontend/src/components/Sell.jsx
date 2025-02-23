@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth } from "../hooks/useAuth.jsx"; // Ensure authentication check
 import { useNavigate } from "react-router-dom";
@@ -6,6 +6,14 @@ import { useNavigate } from "react-router-dom";
 function Sell() {
   const { user } = useAuth();
   const navigate = useNavigate();
+
+  // Redirect unauthenticated users
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  }, [user, navigate]);
+
   const [selectedCategory, setSelectedCategory] = useState("");
   const [subcategories, setSubcategories] = useState([]);
   const [successMessage, setSuccessMessage] = useState("");
@@ -59,14 +67,9 @@ function Sell() {
     }
   };
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!user) {
-      alert("You must be logged in to submit this form. Redirecting to login...");
-      navigate("/login");
-      return;
-    }
 
     const formDataToSend = new FormData();
     for (const key in formData) {
@@ -113,12 +116,6 @@ function Sell() {
           Sell Your Book
         </h1>
 
-        {!user && (
-          <p className="text-red-500 text-center mt-2">
-            You must be logged in to submit the form.
-          </p>
-        )}
-
         <form className="space-y-4" onSubmit={handleSubmit}>
           {/* Name and WhatsApp Number */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -161,7 +158,7 @@ function Sell() {
                 name="collegeName"
                 value={formData.collegeName}
                 onChange={handleInputChange}
-                className="w-full border rounded-lg px-3 py-2 mt-1 bg-white text-black focus:outline-none focus:ring-2 focus:ring-yellow"
+                className="w-full border rounded-lg px-3 py-2 bg-white text-black"
                 placeholder="Enter your college name"
                 required
               />
@@ -173,7 +170,7 @@ function Sell() {
                 name="bookName"
                 value={formData.bookName}
                 onChange={handleInputChange}
-                className="w-full border rounded-lg px-3 py-2 mt-1 bg-white text-black focus:outline-none focus:ring-2 focus:ring-yellow"
+                className="w-full border rounded-lg px-3 py-2 bg-white text-black"
                 placeholder="Enter the book name"
                 required
               />
@@ -185,27 +182,25 @@ function Sell() {
             <label className="block text-black font-medium mb-2">
               Select Book Category
             </label>
-            <div className="flex flex-wrap items-center gap-4">
+            <select
+              name="category"
+              value={selectedCategory}
+              onChange={(e) => handleCategoryChange(e.target.value)}
+              className="w-full border rounded-lg px-3 py-2 bg-white text-black"
+              required
+            >
+              <option value="">Choose a category</option>
               {Object.keys(categoryOptions).map((category) => (
-                <label key={category} className="flex items-center">
-                  <input
-                    type="radio"
-                    name="category"
-                    value={category}
-                    checked={selectedCategory === category}
-                    onChange={() => handleCategoryChange(category)}
-                    className="appearance-none w-4 h-4 border-2 border-black rounded-full bg-gray checked:bg-yellow focus:ring-2 focus:ring-yellow focus:ring-offset-2 transition"
-                    required
-                  />
-                  <span className="ml-2">{category}</span>
-                </label>
+                <option key={category} value={category}>
+                  {category}
+                </option>
               ))}
-            </div>
+            </select>
           </div>
 
           {/* Subcategory Dropdown */}
           {subcategories.length > 0 && (
-            <div className="mt-4">
+            <div>
               <label className="block text-black font-medium mb-2">
                 Select Subcategory
               </label>
@@ -213,7 +208,7 @@ function Sell() {
                 name="subcategory"
                 value={formData.subcategory}
                 onChange={handleInputChange}
-                className="w-full border rounded-lg px-3 py-2 bg-white text-black focus:outline-none focus:ring-2 focus:ring-yellow"
+                className="w-full border rounded-lg px-3 py-2 bg-white text-black"
                 required
               >
                 <option value="" disabled>
@@ -228,9 +223,8 @@ function Sell() {
             </div>
           )}
 
-
-          {/* Book Cover Upload */}
-          <div>
+                    {/* Book Cover Upload */}
+                    <div>
             <label className="block text-black font-medium mb-2">
               Upload Book Cover Page (Max Size: 100KB)
             </label>
@@ -250,7 +244,7 @@ function Sell() {
 
             {/* Success/Error Message */}
             {successMessage && (
-              <div className={`mt-2 text-center font-semibold ${successMessage.includes("❌") ? "text-red" : "text-green"}`}>
+              <div className={ `mt-2 text-center font-semibold ${successMessage.includes("❌") ? "text-red" : "text-green"}`}>
                 {successMessage}
               </div>
             )}
@@ -286,14 +280,13 @@ function Sell() {
             </div>
           </div>
 
+         
+
           {/* Submit Button */}
           <div className="text-center">
             <button
               type="submit"
-              className={`w-full p-2 mt-4 rounded ${
-                user ? "bg-yellow hover:bg-grey text-black" : "bg-yellow cursor-not-allowed"
-              }`}
-              disabled={!user}
+              className="w-full p-2 mt-4 rounded bg-yellow hover:bg-grey text-black"
             >
               Submit
             </button>
