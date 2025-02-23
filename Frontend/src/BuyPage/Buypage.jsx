@@ -5,7 +5,7 @@ import Footer from '../components/Footer'
 
 function Buypage() {
   return (
-    <div>
+    <div className='bg-white'>
       <Navbar/>
       <Buy/>
       <Footer/>
