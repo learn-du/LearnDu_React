@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth'; // Import useAuth hook
+import Logo from "../assets/logomain.png";
 
 function Navbar() {
   const { user, logout } = useAuth(); // Get user and logout function from AuthContext
@@ -13,25 +14,24 @@ function Navbar() {
 
   const navItems = (
     <>
-      <li><a href="https://learndu.in/">Home</a></li>
+      <li><a href="https://learndu.in/" className="hover:text-yellow-500">Home</a></li>
       <li>
         <details>
-          <summary>Services</summary>
-          <ul className="p-2 bg-white text-black">
-            <li><a href="/sell">Sell Book</a></li>
-            <li><a href="/buy">Buy Book</a></li>
+          <summary className="hover:text-yellow-500">Services</summary>
+          <ul className="p-2 bg-white text-black shadow-md rounded-lg">
+            <li><a href="/sell" className="hover:text-yellow-500">Sell Book</a></li>
+            <li><a href="/buy" className="hover:text-yellow-500">Buy Book</a></li>
           </ul>
         </details>
       </li>
-      <li><a href='/listing'>My Listings</a></li>
-     
+      <li><a href='/listing' className="hover:text-yellow-500">My Listings</a></li>
     </>
   );
 
   return (
     <div className="w-full">
-      <div className="navbar bg-white text-black shadow-md border-b border-gray-300 fixed top-0 left-0 right-0 z-50">
-        <div className="navbar-start">
+      <div className="navbar bg-white text-black shadow-md border-b-4 border-yellow fixed top-0 left-0 right-0 z-50">
+        <div className="navbar-start flex items-center">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
               <svg
@@ -56,7 +56,9 @@ function Navbar() {
               {navItems}
             </ul>
           </div>
-          <a className="text-xl font-bold cursor-pointer text-yellow ml-10">LearnDU</a>
+          {/* Updated Logo with Proper Sizing */}
+          <img src={Logo} alt="Learn DU Logo" className="h-10 w-10 ml-5" />
+          <a className="text-xl font-bold cursor-pointer text-yellow ml-2">LearnDU</a>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1 font">{navItems}</ul>
@@ -65,14 +67,14 @@ function Navbar() {
           {user ? (
             <button
               onClick={handleLogout}
-              className="btn bg-yellow border-none text-white hover:bg-grey text-white mr-10 px-8 py-1"
+              className="btn bg-yellow border-none text-white hover:bg-grey text-black mr-10 px-8 py-1"
             >
               Logout
             </button>
           ) : (
             <Link
               to="/login"
-              className="btn bg-yellow border-none text-white hover:text-yellow bg-grey mr-10 px-8 py-1"
+              className="btn bg-yellow border-none text-white hover:text-yellow bg-gray mr-10 px-8 py-1"
             >
               Login
             </Link>

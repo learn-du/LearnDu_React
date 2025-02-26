@@ -35,12 +35,13 @@ function Buy() {
       (!selectedSubcategory || book.subcategory === selectedSubcategory)
   );
 
-  const handleContactSeller = (bookTitle, whatsappNumber) => {
-    const message = `Hi Dear [Username],
+  const handleContactSeller = (bookTitle, whatsappNumber,name) => {
+    const updateLink = "https://learndu-book-buy-sell.vercel.app/listing";
+    const message = `Hi Dear ${name},
 I came across your listing for ${bookTitle} on Learn DU and would like to express my interest in purchasing it. Please let me know the necessary details for the transaction.
 
 If the listing is not available kindly update it 
-Update link : [link to my listings page].
+Update link : ${updateLink}.
 
 Looking forward to your response.`;
 
