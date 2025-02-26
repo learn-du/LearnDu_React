@@ -18,7 +18,7 @@ function MyListings() {
 
     const fetchBooks = async () => {
       try {
-        const response = await axios.get("http://localhost:5000/api/books/mine", {
+        const response = await axios.get("https://learndu-services-backend.onrender.com/api/books/mine", {
           headers: { Authorization: `Bearer ${userToken}` },
         });
         setBooks(response.data.books);
@@ -41,7 +41,7 @@ function MyListings() {
     if (!window.confirm("Are you sure you want to delete this book?")) return;
 
     try {
-      await axios.delete(`http://localhost:5000/api/books/${bookId}`, {
+      await axios.delete(`https://learndu-services-backend.onrender.com/api/books/${bookId}`, {
         headers: { Authorization: `Bearer ${userToken}` },
       });
 

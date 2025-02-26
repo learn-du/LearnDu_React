@@ -10,7 +10,7 @@ function Sell() {
   // Redirect unauthenticated users
   useEffect(() => {
     if (!user) {
-      navigate("/login");
+      navigate("/signup");
     }
   }, [user, navigate]);
 

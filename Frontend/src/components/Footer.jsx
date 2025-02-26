@@ -37,9 +37,9 @@ function Footer() {
         <nav className="text-center md:text-left">
           <h6 className="footer-title text-black text-base font-semibold mb-3">SOCIAL</h6>
           <div className="flex justify-center md:justify-start space-x-6 text-xl">
-            <a href="https://linkedin.com" target="_blank" className="text-black hover:text-blue-700"><FaLinkedin /></a>
+            <a href="https://www.linkedin.com/company/learndu/?viewAsMember=true" target="_blank" className="text-black hover:text-blue-700"><FaLinkedin /></a>
             <a href="mailto:contact@learndu.in" className="text-black hover:text-red-600"><SiGmail /></a>
-            <a href="https://instagram.com" target="_blank" className="text-black hover:text-pink-500"><FaInstagram /></a>
+            <a href="https://www.instagram.com/learndu.in/" target="_blank" className="text-black hover:text-pink-500"><FaInstagram /></a>
           </div>
         </nav>
       </footer>

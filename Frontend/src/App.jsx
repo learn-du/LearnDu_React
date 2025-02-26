@@ -8,6 +8,8 @@ import Sell from './SellPage/SelPage';
 import ForgotPassword from './components/ForgetPassword'
 import Listing from './mylistingPage/Listing';
 import { AuthProvider } from './hooks/useAuth';
+import ForgotPassword from './components/ForgotPassword'
+import { Analytics } from "@vercel/analytics/react"
 
 function App() {
   return (
@@ -24,6 +26,7 @@ function App() {
           <Route path="/listing" element={<Listing />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
         </Routes>
+        <Analytics />
       </div>
     </AuthProvider>
   );

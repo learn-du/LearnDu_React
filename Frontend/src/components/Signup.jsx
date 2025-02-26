@@ -29,7 +29,7 @@ function Signup() {
 
     try {
       // Send POST request to the backend
-      const response = await axios.post("http://localhost:5000/api/users/signup", formData);
+      const response = await axios.post("https://learndu-services-backend.onrender.com/api/users/signup", formData);
 
       if (response.status === 201) {
         alert("Signup successful!");
