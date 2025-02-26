@@ -54,7 +54,7 @@ Looking forward to your response.`;
 
   return (
     <div className="bg-white py-32 px-4 sm:px-6 lg:px-8">
-      <h1 className="text-xl font-bold text-yellow-500 text-center mb-8">
+      <h1 className="text-xl font-bold text-yellow text-center mb-8">
         Available Books
       </h1>
 
