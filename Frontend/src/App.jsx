@@ -7,8 +7,11 @@ import Buy from './BuyPage/Buypage';
 import Sell from './SellPage/SelPage';
 import ForgotPassword from './components/ForgetPassword'
 import Listing from './mylistingPage/Listing';
+import ResetPassword from './components/ResetPassword';
 import { AuthProvider } from './hooks/useAuth';
 import { Analytics } from "@vercel/analytics/react"
+import { SpeedInsights } from "@vercel/speed-insights/react"
+
 
 function App() {
   return (
@@ -24,7 +27,9 @@ function App() {
           <Route path="/sell" element={<Sell />} />  {/*  No ProtectedRoute */}
           <Route path="/listing" element={<Listing />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
         </Routes>
+        <SpeedInsights />
         <Analytics />
       </div>
     </AuthProvider>

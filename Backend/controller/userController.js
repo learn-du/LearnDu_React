@@ -1,6 +1,8 @@
 const User = require("../model/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");  
+const sendEmail = require("../utils/sendemail.js"); 
+
 
 const signup = async (req, res) => {
   const { fullName, email, phone, password, confirmPassword } = req.body;
@@ -66,6 +68,55 @@ const login = async (req, res) => {
       res.status(500).json({ message: "Server error", error: error.message });
     }
   };
+
+  exports.requestPasswordReset = async (req, res) => {
+    const { email } = req.body;
+  
+    try {
+      const user = await User.findOne({ email });
+      if (!user) return res.status(404).json({ message: "User not found" });
+  
+      const token = jwt.sign({ email }, process.env.JWT_SECRET, { expiresIn: "1h" });
+  
+      user.resetToken = token;
+      user.resetTokenExpiration = Date.now() + 3600000; // Token expires in 1 hour
+      await user.save();
+  
+      const resetLink = `${process.env.CLIENT_URL}/reset-password/${token}`;
+  
+      // Send Email
+      await sendEmail(email, "Reset Your Password", `Click the link below to reset your password:\n${resetLink}`);
+  
+      res.json({ message: "Reset link sent to your email" });
+    } catch (error) {
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  };
+  
+  exports.resetPassword = async (req, res) => {
+    const { token } = req.params;
+    const { newPassword } = req.body;
+  
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const user = await User.findOne({ email: decoded.email, resetToken: token });
+  
+      if (!user || user.resetTokenExpiration < Date.now()) {
+        return res.status(400).json({ message: "Invalid or expired token" });
+      }
+  
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      user.password = hashedPassword;
+      user.resetToken = null;
+      user.resetTokenExpiration = null;
+      await user.save();
+  
+      res.json({ message: "Password has been reset successfully" });
+    } catch (error) {
+      res.status(400).json({ message: "Invalid token" });
+    }
+  };
+  
   
 
 module.exports = { signup,login };

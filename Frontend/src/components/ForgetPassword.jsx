@@ -1,7 +1,34 @@
 import faces from "../assets/faces.jpeg";
 import template from "../assets/template.jpg";
+import { useState } from "react";
+import axios from "axios";
 
 export default function ResetPassword() {
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleResetRequest = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setMessage("");
+    setError("");
+
+    try {
+      const response = await axios.post("http://localhost:5000/api/users/reset-password", {
+        email,
+      });
+
+      setMessage(response.data.message);
+      setEmail("");
+    } catch (err) {
+      setError(err.response?.data?.message || "Something went wrong!");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div
       className="w-full h-screen bg-cover bg-center flex flex-col justify-center items-center relative px-4"
@@ -25,6 +52,10 @@ export default function ResetPassword() {
           Enter the email address you signed up with below. An email will be sent containing a link to reset your password.
         </p>
 
+        {message && <p className="text-green-600 text-center mb-3">{message}</p>}
+        {error && <p className="text-red-500 text-center mb-3">{error}</p>}
+
+        <form onSubmit={handleResetRequest} className="w-full flex justify-center items-center flex-col">
         <input
           type="email"
           placeholder="e.g john@gmail.com"
@@ -33,11 +64,17 @@ export default function ResetPassword() {
             backgroundColor: "#FEF9C3", // Light Yellow (equivalent to Tailwind bg-yellow-100)
             color: "#333",
           }}
+          value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
         />
 
-        <button className="w-full sm:w-40 mt-4 p-2 bg-[#FF6B6B] text-white rounded-md active:bg-red-400 transition duration-150">
-          Send reset link
+        <button className="w-full sm:w-40 mt-4 p-2 justify-center bg-[#FF6B6B] text-white rounded-md active:bg-red transition duration-150 "
+        disabled={loading}
+          >
+            {loading ? "Sending..." : "Send Reset Link"}
         </button>
+        </form>
       </div>
     </div>
   );
