@@ -7,7 +7,7 @@ import Buy from './BuyPage/Buypage';
 import Sell from './SellPage/SelPage';
 import Listing from './mylistingPage/Listing';
 import { AuthProvider } from './hooks/useAuth';
-import ForgotPassword from './components/ForgetPassword'
+import ForgotPassword from './components/ForgotPassword'
 
 function App() {
   return (
