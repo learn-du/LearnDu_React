@@ -87,7 +87,7 @@ function Login() {
               className="w-full p-2 mb-4 border-b-2 border-black bg-white text-black focus:outline-none focus:ring-0 focus:border-orange"
               required
             />
-            <a href="/forgotpassword" className="text-gray hover:text-slate-600 text-sm block px-0 py-0 mb-4 text-center">
+            <a href="/forgot-password" className="text-gray hover:text-slate-600 text-sm block px-0 py-0 mb-4 text-center">
               Forgot password?
             </a>
             <button
