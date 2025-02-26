@@ -7,6 +7,7 @@ import Buy from './BuyPage/Buypage';
 import Sell from './SellPage/SelPage';
 import Listing from './mylistingPage/Listing';
 import { AuthProvider } from './hooks/useAuth';
+import ForgotPassword from './components/ForgetPassword'
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/buy" element={<Buy />} />
           <Route path="/sell" element={<Sell />} />  {/*  No ProtectedRoute */}
           <Route path="/listing" element={<Listing />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
         </Routes>
       </div>
     </AuthProvider>
