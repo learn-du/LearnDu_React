@@ -19,7 +19,7 @@ function Hero() {
             <div className="card-body items-center text-center">
               <h3 className="card-title text-lg font-bold text-black">Buy Book</h3>
               <div className="card-actions mt-4">
-              <Link to="/buy" className="btn bg-yellow text-black px-8 py-1 rounded-md cursor-pointer hover:bg-grey border-none ">
+              <Link to="/buy" className="btn bg-yellow text-black px-8 py-1 rounded-md cursor-pointer hover:bg-grey hover:text-yellow border-none ">
                   Buy
                 </Link>
               </div>
@@ -38,7 +38,7 @@ function Hero() {
             <div className="card-body items-center text-center">
               <h3 className="card-title text-lg font-bold text-black">Sell Book</h3>
               <div className="card-actions mt-4">
-                <Link to="/sell" className="btn bg-yellow text-black border-none px-8 py-1 rounded-md cursor-pointer hover:bg-grey">
+                <Link to="/sell" className="btn bg-yellow text-black border-none px-8 py-1 rounded-md cursor-pointer hover:bg-grey  hover:text-yellow">
                   Sell
                 </Link>
               </div>

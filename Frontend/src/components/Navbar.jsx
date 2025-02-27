@@ -14,17 +14,17 @@ function Navbar() {
 
   const navItems = (
     <>
-      <li><a href="https://learndu.in/" className="hover:text-yellow-500">Home</a></li>
+      <li><a href="https://learndu.in/" className="font-2xl hover:text-yellow font-bold">Home</a></li>
       <li>
         <details>
-          <summary className="hover:text-yellow-500">Services</summary>
+          <summary className="font-2xl hover:text-yellow font-bold">Services</summary>
           <ul className="p-2 bg-white text-black shadow-md rounded-lg">
-            <li><a href="/sell" className="hover:text-yellow-500">Sell Book</a></li>
-            <li><a href="/buy" className="hover:text-yellow-500">Buy Book</a></li>
+            <li><a href="/sell" className="hover:text-yellow ">Sell Book</a></li>
+            <li><a href="/buy" className="hover:text-yellow">Buy Book</a></li>
           </ul>
         </details>
       </li>
-      <li><a href='/listing' className="hover:text-yellow-500">My Listings</a></li>
+      <li><a href='/listing' className=" font-2xl hover:text-yellow font-bold">My Listings</a></li>
     </>
   );
 
@@ -74,7 +74,7 @@ function Navbar() {
           ) : (
             <Link
               to="/login"
-              className="btn bg-yellow border-none text-white hover:text-yellow bg-gray mr-10 px-8 py-1"
+              className="btn bg-yellow border-none text-white hover:text-yellow hover:bg-grey mr-10 px-8 py-1"
             >
               Login
             </Link>
