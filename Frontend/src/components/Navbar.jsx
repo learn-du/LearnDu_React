@@ -58,9 +58,9 @@ function Navbar() {
           </div>
           {/* Updated Logo with Proper Sizing */}
           <img src={Logo} alt="Learn DU Logo" className="h-10 w-10 ml-5" />
-          <a className="text-xl font-bold cursor-pointer text-yellow ml-2">LearnDU</a>
+          <a className="text-xl font-bold cursor-pointer text-yellow ml-2 font-Nunito">LearnDU</a>
         </div>
-        <div className="navbar-center hidden lg:flex">
+        <div className="navbar-center hidden lg:flex font-Nunito font-semibold">
           <ul className="menu menu-horizontal px-1 font">{navItems}</ul>
         </div>
         <div className="navbar-end">

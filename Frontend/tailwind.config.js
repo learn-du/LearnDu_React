@@ -27,7 +27,9 @@ export default {
       
       
     },
-    extend: {},
+    extend: {fontFamily: {
+      Nunito: ["Nunito", "sans-serif"]
+    }},
   },
   plugins: [
     require('daisyui'),

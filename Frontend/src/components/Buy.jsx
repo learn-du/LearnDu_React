@@ -65,7 +65,7 @@ Looking forward to your response.`;
           onChange={(e) => setSelectedCollege(e.target.value)}
           className="border rounded px-2 py-1 bg-white text-black"
         >
-          <option value="">All Colleges</option>
+          <option value="">Colleges</option>
           {[...new Set(books.map((book) => book.collegeName))].map((college) => (
             <option key={college} value={college}>
               {college}
@@ -77,7 +77,7 @@ Looking forward to your response.`;
           onChange={(e) => setSelectedSubject(e.target.value)}
           className="border rounded px-2 py-1 bg-white text-black"
         >
-          <option value="">All Subjects</option>
+          <option value="">Subjects</option>
           {[...new Set(books.map((book) => book.category))].map((subject) => (
             <option key={subject} value={subject}>
               {subject}
@@ -89,7 +89,7 @@ Looking forward to your response.`;
           onChange={(e) => setSelectedSubcategory(e.target.value)}
           className="border rounded px-2 py-1 bg-white text-black"
         >
-          <option value="">All Subcategories</option>
+          <option value="">Subcategories</option>
           {[...new Set(books.map((book) => book.subcategory))].map(
             (subcategory) => (
               <option key={subcategory} value={subcategory}>
