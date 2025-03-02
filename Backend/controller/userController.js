@@ -92,7 +92,7 @@ const forgotPassword = async (req, res) => {
      await user.save();
  
      // Send password reset email
-     const resetLink = `http://localhost:5173/reset-password/${token}`;
+     const resetLink = `https://learndu-book-buy-sell.vercel.app//reset-password/${token}`;
      await transporter.sendMail({
        to: email,
        from: process.env.EMAIL_USER,
