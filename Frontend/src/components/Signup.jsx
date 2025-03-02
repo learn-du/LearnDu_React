@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import loginbg from "../assets/loginbg.jpeg";
-import faces from "../assets/faces.jpeg";
 
 function Signup() {
   const navigate = useNavigate();
@@ -50,15 +48,11 @@ function Signup() {
     <div
       className="relative min-h-screen flex flex-col items-center justify-between"
       style={{
-        backgroundImage: `url(${loginbg})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
-      {/* Faces image at the top */}
-      <div className="flex justify-center pt-0">
-        <img src={faces} alt="Avatars" className="w-auto h-28 object-contain" />
-      </div>
+      
 
       {/* Centered Signup Form */}
       <div className="flex flex-col items-center justify-center w-full max-w-md bg-white border-black border-4 p-4 shadow-lg">

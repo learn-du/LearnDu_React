@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import loginbg from "../assets/loginbg.jpeg";
-import faces from "../assets/faces.jpeg";
 import { useAuth } from "../hooks/useAuth";
 
 function Login() {
@@ -52,15 +50,12 @@ function Login() {
     <div
       className="relative min-h-screen"
       style={{
-        backgroundImage: `url(${loginbg})`,
+
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
-      {/* Faces image at the top */}
-      <div className="absolute top-4 left-0 right-0 flex justify-center">
-        <img src={faces} alt="Avatars" className="w-auto h-auto object-contain" />
-      </div>
+      
 
       {/* Container to center the login form */}
       <div className="flex items-center justify-center min-h-screen">
