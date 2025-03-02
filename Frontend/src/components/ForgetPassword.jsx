@@ -16,7 +16,7 @@ export default function ResetPassword() {
     setError("");
 
     try {
-      const response = await axios.post("https://learndu-services-backend.onrender.com/api/users/reset-password", {
+      const response = await axios.post("https://learndu-services-backend.onrender.com/api/users/forgot-password", {
         email,
       });
 
