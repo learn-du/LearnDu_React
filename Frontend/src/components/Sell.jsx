@@ -212,7 +212,7 @@ function Sell() {
                 required
               >
                 <option value="" disabled>
-                  Choose a subcategory
+                  Choose a Paper Name
                 </option>
                 {subcategories.map((subcategory) => (
                   <option key={subcategory} value={subcategory}>
@@ -267,7 +267,7 @@ function Sell() {
               />
             </div>
             <div className="text-center md:text-left">
-              <label className="block text-black font-medium">MRP (₹)</label>
+              <label className="block text-black font-medium">MRP (₹) Optional</label>
               <input
                 type="number"
                 name="mrp"
@@ -275,7 +275,7 @@ function Sell() {
                 onChange={handleInputChange}
                 className="w-full border rounded-lg px-3 py-2 mt-1 bg-white  text-black focus:outline-none focus:ring-2 focus:ring-yellow"
                 placeholder="Enter MRP"
-                required
+               
               />
             </div>
           </div>

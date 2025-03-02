@@ -14,7 +14,7 @@ function Buy() {
     const fetchBooks = async () => {
       setLoading(true);
       try {
-        const response = await axios.get("https://learndu-services-backend.onrender.com/api/books"); // Replace with your API endpoint
+        const response = await axios.get("https://learndu-services-backend.onrender.com/api/books"); 
         setBooks(response.data); // Set fetched books in state
       } catch (err) {
         console.error("Error fetching books:", err);
@@ -89,7 +89,7 @@ Looking forward to your response.`;
           onChange={(e) => setSelectedSubcategory(e.target.value)}
           className="border rounded px-2 py-1 bg-white text-black"
         >
-          <option value="">Subcategories</option>
+          <option value="">Paper Name</option>
           {[...new Set(books.map((book) => book.subcategory))].map(
             (subcategory) => (
               <option key={subcategory} value={subcategory}>

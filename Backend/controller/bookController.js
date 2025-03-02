@@ -65,27 +65,6 @@ exports.getAllBooks = async (req, res) => {
   }
 };
 
-exports.getUserListings = async (req, res) => {
-  try {
-    if (!req.user || !req.user._id) {
-      return res.status(401).json({ message: "Unauthorized: No user logged in." });
-    }
-
-    console.log("Fetching listings for user ID:", req.user._id); // Debugging log
-
-    const books = await Book.find({ user: req.user._id });
-
-    if (books.length === 0) {
-      return res.status(404).json({ message: "No listings found for this user." });
-    }
-
-    res.status(200).json({ books });
-  } catch (error) {
-    console.error("Error fetching user listings:", error);
-    res.status(500).json({ message: "Error fetching listings", error: error.message });
-  }
-};
-
 
 // Retrieve filtered books based on query parameters
 exports.findFiltered = async (req, res) => {
@@ -157,20 +136,32 @@ exports.update = async (req, res) => {
 };
 
 
-// Delete a book by ID
-exports.delete = async (req, res) => {
+
+exports.getUserListedBooks = async (req, res) => {
   try {
-    const book = await Book.findByIdAndDelete(req.params.id);
+    const books = await Book.find({ seller: req.user.id });
+    res.status(200).json({ books });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to retrieve books.", error: error.message });
+  }
+};
+
+// Delete a book listed by the logged-in user
+exports.deleteUserBook = async (req, res) => {
+  try {
+    const book = await Book.findById(req.params.id);
 
     if (!book) {
       return res.status(404).json({ message: "Book not found" });
     }
 
-    res.status(200).json({ message: "Book deleted successfully" });
+    if (book.seller.toString() !== req.user.id) {
+      return res.status(403).json({ message: "Unauthorized to delete this book" });
+    }
+
+    await book.deleteOne();
+    res.json({ message: "Book deleted successfully" });
   } catch (error) {
-    res.status(500).json({
-      message: "Could not delete book with id=" + req.params.id,
-      error: error.message,
-    });
+    res.status(500).json({ message: "Error deleting book. Please try again." });
   }
 };

@@ -1,26 +1,32 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const books = require('../controller/bookController');
-const authMiddleware = require('../middleware/authMiddleware');
+const books = require("../controller/bookController");
+const { verifyToken } = require("../middleware/authMiddleware");
 
-// Create a new book
-router.post('/',authMiddleware, books.create);
+// Get books listed by the logged-in user
+router.get("/mine", verifyToken, books.getUserListedBooks);
+
+// Create a new book (requires authentication)
+
+router.post("/", verifyToken, books.create);
 
 // Retrieve all books
-router.get('/', books.findAll);
+router.get("/", books.findAll);
 
+// Retrieve filtered books
 router.get("/filter", books.findFiltered);
 
-// Retrieve a single book with id
-router.get('/:id', books.findOne);
+// Get books listed by the logged-in user
+router.get("/mine", verifyToken, books.getUserListedBooks);
 
-// Update a book with id
-router.put('/:id', books.update);
+// Retrieve a single book by ID
+router.get("/:id", books.findOne);
 
-// Delete a book with id
-router.delete('/:id', books.delete);
+// Update a book by ID (requires authentication)
+router.put("/:id", verifyToken, books.update);
 
-router.get("/mine", authMiddleware, books.getUserListings);
-
+// Delete a book listed by the logged-in user
+router.delete("/:id", verifyToken, books.deleteUserBook);
 
 module.exports = router;
+

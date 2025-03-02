@@ -61,7 +61,7 @@ export default function ResetPassword() {
           placeholder="e.g john@gmail.com"
           className="w-full mt-4 p-2 border-b-4 border-black focus:outline-none"
           style={{
-            backgroundColor: "#FEF9C3", // Light Yellow (equivalent to Tailwind bg-yellow-100)
+            backgroundColor: "#FEF9C3", 
             color: "#333",
           }}
           value={email}
