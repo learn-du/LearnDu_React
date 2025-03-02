@@ -55,6 +55,7 @@ function Signup() {
       
 
       {/* Centered Signup Form */}
+      <div className="flex items-center justify-center min-h-screen">
       <div className="flex flex-col items-center justify-center w-full max-w-md bg-white border-black border-4 p-4 shadow-lg">
         <form className="w-full" onSubmit={handleSubmit}>
           <h2 className="text-2xl font-bold text-center mb-6 font-sans text-black">Sign Up</h2>
@@ -121,6 +122,7 @@ function Signup() {
 
       {/* Spacer at the bottom */}
       <div className="pb-6"></div>
+      </div>
     </div>
   );
 }
