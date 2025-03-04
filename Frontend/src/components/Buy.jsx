@@ -126,7 +126,7 @@ Looking forward to your response.`;
               <div className="w-full h-[200px] border border-gray-300 bg-gray-100 flex items-center justify-center overflow-hidden">
                 {book.coverImage ? (
                   <img
-                    src={`https://learndu-services-backend.onrender.com${book.coverImage}`} // Ensure this matches your backend's static file serving path
+                    src={`https://learndu-services-backend.onrender.com/uploads/${book.coverImage}`} // Ensure this matches your backend's static file serving path
                     alt={book.bookName}
                     className="object-cover w-full h-full"
                   />
