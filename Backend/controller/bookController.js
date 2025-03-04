@@ -1,57 +1,41 @@
 const Book = require('../model/Books');
-const multer = require('multer');
-const path = require('path');
-
-// Multer configuration for file storage
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'public/uploads/');  // Store files in the 'public/uploads' directory
-    },
-    filename: function (req, file, cb) {
-        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
-        cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
-    }
-});
-
-const upload = multer({ storage: storage });
-
 
 // Create a new book
 exports.create = async (req, res) => {
-  upload.single('coverImage')(req, res, async (err) => {
-    if (err) {
-      console.error("Multer error:", err);
-      return res.status(500).json({ message: "File upload failed", error: err });
+  try {
+    // Ensure an image is uploaded
+    const coverImage = req.file ? `/uploads/${req.file.filename}` : null;
+
+    // Validate required fields
+    const { name, whatsappNumber, collegeName, bookName, category, subcategory, price, mrp } = req.body;
+    if (!name || !whatsappNumber || !collegeName || !bookName || !category || !subcategory || !price) {
+      return res.status(400).json({ message: "All fields except MRP are required!" });
     }
 
+    // Create the book object
+    const book = new Book({
+      user: req.user ? req.user._id : null, // Ensure authentication is handled
+      name,
+      whatsappNumber,
+      collegeName,
+      bookName,
+      category,
+      subcategory,
+      price,
+      coverImage,
+      mrp
+    });
 
-    try {
-      const { name, whatsappNumber, collegeName, bookName, category, subcategory, price, mrp } = req.body;
-      const coverImage = req.file ? `/uploads/${req.file.filename}` : null;
-
-      const book = new Book({
-        user: req.user._id, // Link book to the logged-in user
-        name,
-        whatsappNumber,
-        collegeName,
-        bookName,
-        category,
-        subcategory,
-        price,
-        coverImage,
-        mrp
-      });
-
-      const savedBook = await book.save();
-      res.status(201).json(savedBook); // 201 Created
-    } catch (error) {
-      console.error("Error creating book:", error);
-      res.status(500).json({
-        message: "Some error occurred while creating the book.",
-        error: error.message,
-      });
-    }
-  });
+    // Save the book to the database
+    const savedBook = await book.save();
+    res.status(201).json({ message: "Book created successfully", book: savedBook });
+  } catch (error) {
+    console.error("Error creating book:", error);
+    res.status(500).json({
+      message: "Some error occurred while creating the book.",
+      error: error.message,
+    });
+  }
 };
 
 // Fetch all books

@@ -2,35 +2,34 @@ const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 
-// Ensure "public/uploads" directory exists
-const uploadDir = "public/uploads";
+// Ensure "public/uploads" exists (Create if missing)
+const uploadDir = process.env.RENDER ? "/var/data/uploads" : "public/uploads";
 if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
 
-// Configure storage
+// Configure Storage
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, uploadDir); // Store in "public/uploads"
-  },
+  destination: uploadDir,
   filename: (req, file, cb) => {
-    cb(null, Date.now() + path.extname(file.originalname)); // Unique filename
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1E9);
+    cb(null, file.fieldname + "-" + uniqueSuffix + path.extname(file.originalname));
   },
 });
 
-// File filter for images only
+// File Filter (Only Accept Images)
 const fileFilter = (req, file, cb) => {
   if (file.mimetype.startsWith("image/")) {
     cb(null, true);
   } else {
-    cb(new Error("Only image files are allowed!"), false);
+    cb(new Error("❌ Only image files are allowed!"), false);
   }
 };
 
-// Initialize multer with increased file size limit (5MB)
+// Initialize Multer
 const upload = multer({
   storage,
-  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB Limit
   fileFilter,
 });
 

@@ -2,13 +2,13 @@ const express = require("express");
 const router = express.Router();
 const books = require("../controller/bookController");
 const { verifyToken } = require("../middleware/authMiddleware");
+const upload = require("../middleware/multer"); 
 
-// Get books listed by the logged-in user
-router.get("/mine", verifyToken, books.getUserListedBooks);
+
 
 // Create a new book (requires authentication)
 
-router.post("/", verifyToken, books.create);
+router.post("/", verifyToken, upload.single("coverImage"), books.create);
 
 // Retrieve all books
 router.get("/", books.findAll);
