@@ -4,6 +4,8 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const bookRoutes = require("./route/Bookroute");
 const userRoutes = require("./route/userRoute");
+const path = require("path"); // Import path module
+
 
 dotenv.config(); 
 
@@ -12,6 +14,9 @@ const app = express();
 // Middleware
 app.use(cors());
 app.use(express.json()); 
+
+app.use("/uploads", express.static(path.join(__dirname, "public/uploads")));
+
 
 // Connect to MongoDB
 mongoose

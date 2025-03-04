@@ -5,7 +5,7 @@ const path = require("path");
 // Configure storage
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/"); // Directory where files will be stored
+    cb(null, "public/uploads"); // Directory where files will be stored
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + path.extname(file.originalname)); // Unique filename with extension
@@ -29,3 +29,13 @@ const upload = multer({
 });
 
 module.exports = upload;
+
+// Upload route
+app.post("/upload", upload.single("image"), (req, res) => {
+  if (!req.file) {
+    return res.status(400).send("No file uploaded.");
+  }
+  res.json({
+    imageUrl: `/uploads/${req.file.filename}`, // Return image path
+  });
+});
